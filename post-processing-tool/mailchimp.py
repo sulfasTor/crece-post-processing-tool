@@ -33,4 +33,10 @@ def get_member_list_df():
             f: m[f] for f in fields
         })
     df = pd.DataFrame(members)
+    df['last_changed'] = pd.to_datetime(df['last_changed'])
+    df['month'] = df['last_changed'].dt.strftime('%-m')
+    df['day'] = df['last_changed'].dt.strftime('%-d')
+    df['last_changed'] = df['last_changed'].dt.strftime('%d/%m/%Y')
+    df = df[ ['last_changed', 'month', 'day'] + [f for f in fields if f != 'last_changed'] ]
+
     return df
