@@ -1,0 +1,23 @@
+name: Build Windows executable
+
+on:
+  push:
+    branches: [ 'main', 'master']
+
+jobs:
+  build:
+    name: Create executable
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Runs PyInstaller action
+        uses: JackMcKnew/pyinstaller-action-windows@main
+        with:
+          path: post_processing_tool
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: crece-post-processing-tool
+          path: post_processing_tool/dist/windows
