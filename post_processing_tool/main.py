@@ -3,6 +3,7 @@ import pandas as pd
 from mailchimp import get_member_list_df
 from replace import post_proces_df, write_csv
 
+
 def main():
     try:
         df = get_member_list_df()
@@ -14,5 +15,6 @@ def main():
         return 1
 
     return 0
+
 
 main()
