@@ -1,8 +1,8 @@
+import os
 from datetime import datetime, timedelta
 
-import os
-import requests
 import pandas as pd
+import requests
 
 
 def get_member_list_df():
@@ -43,7 +43,7 @@ def get_member_list_df():
         params=params,
         auth=(username, api_key),
     )
-    print("download members")
+    print("### Downloaded members")
     if resp.ok:
         data = resp.json()
     else:
