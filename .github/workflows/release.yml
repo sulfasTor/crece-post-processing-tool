@@ -1,8 +1,6 @@
 name: Build Windows executable
 
 on:
-  pull_request:
-    branches: ['master']
   push:
     branches: [ 'main', 'master']
 
@@ -14,13 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Debug
-      - run: ls -lah
-
       - name: Runs PyInstaller action
         uses: JackMcKew/pyinstaller-action-windows@main
         with:
-          path: .
+          path: post_processing_tool
 
       - uses: actions/upload-artifact@v4
         with:
