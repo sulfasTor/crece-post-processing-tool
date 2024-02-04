@@ -1,4 +1,4 @@
 requests
 pandas
 pyarrow
-pyinstaller
+chardet
