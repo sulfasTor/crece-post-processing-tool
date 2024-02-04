@@ -20,7 +20,7 @@ jobs:
       - name: Runs PyInstaller action
         uses: JackMcKew/pyinstaller-action-windows@main
         with:
-          path: ./post_processing_tool
+          path: .
 
       - uses: actions/upload-artifact@v4
         with:
