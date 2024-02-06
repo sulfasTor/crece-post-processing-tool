@@ -1,15 +1,12 @@
 import argparse
 import os
 import pathlib
+import tkinter as tk
 from datetime import datetime, timedelta
 from tkinter import filedialog
 
-import tkinter as tk
 import pandas as pd
 import requests
-
-import tkinter as tk
-from tkinter import filedialog
 
 
 class FileProcessorApp:
@@ -56,7 +53,7 @@ class FileProcessorApp:
         except Exception as e:
             print(e)
             self.completition_label.config(
-                text=f"Algo salio muy mal!. Error en ingles: {str(e)}", fg="red"
+                text=f"Algo salio muy mal! Error en ingles: {str(e)}", fg="red"
             )
             return
         self.completition_label.config(
@@ -172,7 +169,7 @@ def main():
         if not args.console:
             root = tk.Tk()
             root.geometry("400x400")
-            app = FileProcessorApp(root)
+            FileProcessorApp(root)
             root.mainloop()
         else:
             if args.download:
