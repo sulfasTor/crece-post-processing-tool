@@ -1,10 +1,65 @@
 import argparse
 import os
 import pathlib
+import tkinter as tk
 from datetime import datetime, timedelta
+from tkinter import filedialog
 
 import pandas as pd
 import requests
+
+
+class FileProcessorApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("CRECE Post Processor Tool")
+
+        self.input_file_path = tk.StringVar()
+        self.output_directory_path = tk.StringVar()
+
+        self.input_file_label = tk.Label(root, text="CSV de Mailchimp:")
+        self.input_file_label.pack(pady=10)
+
+        self.input_file_button = tk.Button(
+            root, text="Selecciona CSV", command=self.get_input_file
+        )
+        self.input_file_button.pack(pady=5)
+
+        self.post_process_button = tk.Button(
+            root, text="Limpiar datos", command=self.post_process, bg="lightBlue"
+        )
+        self.post_process_button.pack(pady=10)
+
+        self.completition_label = tk.Label(
+            root, text="", wraplength=200, justify="center"
+        )
+        self.completition_label.pack(pady=10)
+
+    def get_input_file(self):
+        file_path = filedialog.askopenfilename(
+            title="Select Input File",
+            filetypes=[("CSV files", "*.csv"), ("All files", "*.*")],
+        )
+        if file_path:
+            self.input_file_path.set(file_path)
+            self.input_file_label.config(text=f"Input File: {file_path}")
+
+    def post_process(self):
+        filename = self.input_file_path.get()
+        out_dir = os.path.dirname(filename)
+        try:
+            df = post_proces_df(filename)
+            output = write_csv(df, out_dir)
+        except Exception as e:
+            print(e)
+            self.completition_label.config(
+                text=f"Algo salio muy mal! Error en ingles: {str(e)}", fg="red"
+            )
+            return
+        self.completition_label.config(
+            text=f"Completado. Se guardo el archivo en la misma carpeta con nombre: {output}",
+            fg="green",
+        )
 
 
 def get_member_list_df():
@@ -92,6 +147,7 @@ def write_csv(df, out_dir):
     except Exception as e:
         raise Exception(f"Couldn't write csv: {str(e)}")
     print(f"### Succesfully wrote CSV at path: {full_path}")
+    return full_path
 
 
 def setup_args():
@@ -99,9 +155,10 @@ def setup_args():
         prog="crece-post-processing-tool",
         description="This tool does specific task for crece team",
     )
-    parser.add_argument("filename", type=pathlib.Path)
-    parser.add_argument("out_dir")
+    parser.add_argument("-i", "--input_file", type=pathlib.Path)
+    parser.add_argument("-o", "--output_dir")
     parser.add_argument("-d", "--download", action="store_true")
+    parser.add_argument("-c", "--console", action="store_true", default=False)
 
     return parser.parse_args()
 
@@ -109,11 +166,17 @@ def setup_args():
 def main():
     args = setup_args()
     try:
-        if args.download:
-            df = get_member_list_df()
+        if not args.console:
+            root = tk.Tk()
+            root.geometry("400x400")
+            FileProcessorApp(root)
+            root.mainloop()
         else:
-            df = post_proces_df(args.filename)
-        write_csv(df, args.out_dir)
+            if args.download:
+                df = get_member_list_df()
+            else:
+                df = post_proces_df(args.input_file)
+                write_csv(df, args.output_dir)
     except Exception as e:
         print(f"FAIL, err: {str(e)}")
         return 1
