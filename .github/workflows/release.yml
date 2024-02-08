@@ -31,4 +31,4 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: crece-post-processing-tool-${{ matrix.os }}
-        path: post_processing_tool/dist/
+        path: post_processing_tool/dist/**
