@@ -5,19 +5,30 @@ on:
     branches: [ 'main', 'master']
 
 jobs:
-  build:
-    name: Create executable
-    runs-on: ubuntu-latest
+  release:
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Runs PyInstaller action
-        uses: JackMcKew/pyinstaller-action-windows@main
-        with:
-          path: post_processing_tool
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.10' 
+        
+    - name: Install dependencies
+      run: |
+        pip install -r post_processing_tool/requirements.txt
+        pip install -r post_processing_tool/dev-requirements.txt      
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: crece-post-processing-tool
-          path: post_processing_tool/dist/windows
+    - name: Run pyinstaller
+      run: |
+        pyinstaller --noconsole post_processing_tool/main.spec
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: crece-post-processing-tool-${{ matrix.os }}
+        path: post_processing_tool/dist/
