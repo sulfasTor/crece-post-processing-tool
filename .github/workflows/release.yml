@@ -26,7 +26,7 @@ jobs:
 
     - name: Run pyinstaller
       run: |
-        pyinstaller --noconsole post_processing_tool/main.spec
+        pyinstaller post_processing_tool/main.spec
 
     - uses: actions/upload-artifact@v4
       with:
