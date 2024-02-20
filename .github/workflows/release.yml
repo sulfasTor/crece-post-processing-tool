@@ -30,8 +30,9 @@ jobs:
 
     - name: Set executable bit
       if: ${{ matrix.os != 'windows-latest' }}
-      run:
-        chmod +x dist/post-process-tool
+      run: |
+        chmod +x dist/post_process_tool
+        ./dist/post_process_tool --help
 
     - uses: actions/upload-artifact@v4
       with:
