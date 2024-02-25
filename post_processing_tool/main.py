@@ -75,23 +75,10 @@ def get_member_list_df():
     params = {
         "since_last_changed": since_last_changed,
         "count": "1000",
-        "exclude_fields": [
-            "MEMBER_RATING",
-            "OPTIN_TIME",
-            "OPTIN_IP",
-            "CONFIRM_TIME",
-            "CONFIRM_IP",
-            "LATITUDE",
-            "LONGITUDE",
-            "GMTOFF",
-            "DSTOFF",
-            "TIMEZONE",
-            "CC",
-            "REGION",
-            "LEID",
-            "EUID",
-            "NOTES",
-            "TAGS",
+        "fields": [
+            "LAST_CHANGED",
+            "EMAIL_ADDRESS",
+            "MERGE_FIELDS"
         ],
         "offset": "0",
     }
@@ -108,9 +95,10 @@ def get_member_list_df():
         raise Exception(
             f'Something went wrong downloading members: {err["title"]}: {err["detail"]}'
         )
-    fields = ["email_address", "full_name", "last_changed", "location", "merge_fields"]
-    for m in data["members"]:
-        members.append({f: m[f] for f in fields})
+    print(len(data["members"]))
+    if len(data["members"]) == 0:
+        return None
+    members = data["members"]
     df = pd.DataFrame(members)
     df["last_changed"] = pd.to_datetime(df["last_changed"])
     df["month"] = df["last_changed"].dt.strftime("%-m")
@@ -176,8 +164,10 @@ def main():
             if args.download:
                 df = get_member_list_df()
             else:
+                if not args.input_file:
+                    raise Exception("Input file not provided. Please add flag -i, --input_file [FILE_NAME]")
                 df = post_proces_df(args.input_file)
-                write_csv(df, args.output_dir)
+            write_csv(df, args.output_dir)
     except Exception as e:
         print(f"FAIL, err: {str(e)}")
         return 1
