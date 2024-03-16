@@ -1,9 +1,6 @@
 name: Sync contacts
 
 on:
-  pull_request:
-    branches: ['main', 'master']
-
   workflow_dispatch:
 
   schedule:
@@ -49,9 +46,9 @@ jobs:
         cc: "torresmoisesa@gmail.com"
         from: "botcrece"
         body: |
-          "Este es un correo automatizado. Se envian en documento adjunto los contactos recopilados en las ultimas dos semanas.
+          Este es un correo automatizado. Se envian en documento adjunto los contactos recopilados en las ultimas dos semanas.
 
-          Para cualquier duda favor de enviar mensaje a torresmoisesa@gmail.com."
+          Para cualquier duda favor de enviar mensaje a torresmoisesa@gmail.com.
         reply_to: torresmoisesa@gmail.com
         ignore_cert: true
         attachments: "./results/*csv"
