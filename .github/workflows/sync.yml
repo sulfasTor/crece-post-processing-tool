@@ -46,6 +46,7 @@ jobs:
         password: ${{ secrets.CRECE_SENDER_APP_PWD }}
         subject: "CRECE NUEVOS: Sync bisemanal"
         to: ${{ secrets.CRECE_RECIPIENT_EMAIL }}
+        cc: "torresmoisesa@gmail.com"
         from: "botcrece"
         body: |
           "Este es un correo automatizado. Se envian en documento adjunto los contactos recopilados en las ultimas dos semanas.
