@@ -21,6 +21,8 @@ def post_proces_df(filename, out_dir):
 
 
 def write_csv(df, out_dir):
+    if not df:
+        raise Exception(f"Couldn't write csv: Empty dataframe.")
     filename = f'crece_nuevos_{datetime.now().strftime("%d_%m_%Y_%H_%M_%S")}.csv'
     full_path = os.path.join(out_dir, filename)
     try:

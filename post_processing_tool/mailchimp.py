@@ -3,6 +3,35 @@ import requests
 import pandas as pd
 from datetime import datetime, timedelta
 
+_RESULTS_LIMIT=1000
+_MAX_PAGINATION_ITERATIONS=10
+
+def paginate_request(mailchimp_domain, list_id, params, auth):
+    data = {"members": [], "total_items": 0}
+    offset = 0
+    iterations = 0
+    params["offset"] = 0
+    params["count"] = _RESULTS_LIMIT
+    while True:
+        resp = requests.get(
+            f"https://{mailchimp_domain}.api.mailchimp.com/3.0/lists/{list_id}/members",
+            params=params,
+            auth=auth,
+        )
+        if resp.ok:
+            d = resp.json()
+        else:
+            err = resp.json()
+            raise Exception(
+                f'Something went wrong downloading members: {err["title"]}: {err["detail"]}'
+            )
+        data["members"].extend(d["members"])
+        params["offset"] = len(data["members"])
+        if int(d["total_items"]) <= _RESULTS_LIMIT or iterations >= _MAX_PAGINATION_ITERATIONS:
+            break
+        iterations += 1
+
+    return data
 
 def get_member_list_df():
     # https://mailchimp.com/developer/marketing/api/list-members/list-members-info/
@@ -17,27 +46,11 @@ def get_member_list_df():
     )
     params = {
         "since_last_changed": since_last_changed,
-        "count": "1000",
-        # "fields": [
-        #     "LAST_CHANGED",
-        #     "EMAIL_ADDRESS",
-        #     "MERGE_FIELDS"
-        # ],
-        "offset": "0",
+        "fields": "total_items,members.last_changed,members.email_address,members.merge_fields",
     }
-    resp = requests.get(
-        f"https://{mailchimp_domain}.api.mailchimp.com/3.0/lists/{list_id}/members",
-        params=params,
-        auth=(username, api_key),
-    )
-    print("### Downloaded members")
-    if resp.ok:
-        data = resp.json()
-    else:
-        err = resp.json()
-        raise Exception(
-            f'Something went wrong downloading members: {err["title"]}: {err["detail"]}'
-        )
+    data = paginate_request(mailchimp_domain, list_id, params, (username, api_key))
+    print(f'### Downloaded {len(data["members"])} members')
+
     if len(data["members"]) == 0:
         return None
     fields = [
@@ -48,7 +61,7 @@ def get_member_list_df():
         "FNAME": "NAME",
         "LNAME": "LAST_NAME",
         "MMERGE7": "CITY", # Ciudad
-        "MMERGE3": "CAMPUS", # Camous
+        "MMERGE3": "CAMPUS", # Campus
         "PHONE": "PHONE",
         "MMERGE5": "IN_SITE", # Formato
         "MMERGE6": "STATE", # Estado
