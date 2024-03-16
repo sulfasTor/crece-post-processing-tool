@@ -6,6 +6,12 @@ from datetime import datetime, timedelta
 _RESULTS_LIMIT=1000
 _MAX_PAGINATION_ITERATIONS=10
 
+def get_member_list_df():
+    data = get_member_list()
+    df = create_df(data)
+
+    return df
+
 def paginate_request(mailchimp_domain, list_id, params, auth):
     data = {"members": [], "total_items": 0}
     offset = 0
@@ -33,15 +39,14 @@ def paginate_request(mailchimp_domain, list_id, params, auth):
 
     return data
 
-def get_member_list_df():
+def get_member_list():
     # https://mailchimp.com/developer/marketing/api/list-members/list-members-info/
     # https://mailchimp.com/developer/marketing/api/list-members/
-    members = []
     username = os.environ.get("MAILCHIMP_USERNAME")
     api_key = os.environ.get("MAILCHIMP_API_KEY")
     mailchimp_domain = os.environ.get("MAILCHIMP_DOMAIN", "us21")
     list_id = os.environ.get("MAILCHIMP_LIST_ID", "601b55d9dc")
-    since_last_changed = (datetime.now() - timedelta(weeks=2)).strftime(
+    since_last_changed = (datetime.now() - timedelta(weeks=105)).strftime(
         "%Y-%m-%d %H:%M:$S"
     )
     params = {
@@ -53,6 +58,11 @@ def get_member_list_df():
 
     if len(data["members"]) == 0:
         return None
+
+    return data
+
+
+def create_df(data):
     fields = [
         "last_changed",
         "email_address"
@@ -68,6 +78,7 @@ def get_member_list_df():
         "MMERGE8": "PRAYER_REQUEST", # Pedido de oracion
         "MMERGE9": "FIRST_TIME", # Primera vez en MV
     }
+    members = []
     for m in data['members']:
         mb = {
             k: m.get(k) for k in fields
@@ -82,5 +93,8 @@ def get_member_list_df():
     df["month"] = df["last_changed"].dt.strftime("%-m")
     df["day"] = df["last_changed"].dt.strftime("%-d")
     df["last_changed"] = df["last_changed"].dt.strftime("%d/%m/%Y")
+    df.sort_values(by=["last_changed"], ascending=False, inplace=True)
+
+    df = df[["last_changed", "day", "month", "NAME", "LAST_NAME", "email_address", "PHONE", "CITY", "CAMPUS", "IN_SITE", "STATE", "PRAYER_REQUEST", "FIRST_TIME"]]
 
     return df
