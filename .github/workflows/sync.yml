@@ -1,0 +1,54 @@
+name: Sync
+
+on:
+  pull_request:
+    branches: ['main', 'master']
+
+  workflow_dispatch:
+
+  schedule:
+    cron:
+      - '0 0 * * 0'
+
+jobs:
+  sync:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install -r post_processing_tool/requirements.txt
+
+    - name: Generate csv
+      env:
+        MAILCHIMP_DOMAIN: ${{ secrets.CRECE_MAILCHIMP_DOMAIN }}
+        MAILCHIMP_LIST_ID: ${{ secrets.CRECE_MAILCHIMP_LIST_ID }}
+        MAILCHIMP_API_KEY: ${{ secrets.CRECE_MAILCHIMP_TOKEN }}
+        MAILCHIMP_USERNAME: ${{ secrets.CRECE_MAILCHIMP_USER }}
+      run: |
+        mkdir results
+        python main.py -c -d -o ./results
+        ls results
+
+    - name: Send csv
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_addres: smtp.gmail.com
+        server_port: 465
+        secure: true
+        username: ${{ secrets.MAIL_ADDRESS }}
+        password: ${{ secrets.CRECE_SENDER_APP_PWD }}
+        subject: "CRECE: Nuevos sync semanal"
+        to: ${{ secrets.CRECE_RECIPIENT_EMAIL }}
+        from: ${{ secrets.MAIL_ADDRESS }}
+        body: Correo automatizado. Se adjunta csv con ultimos datos recopilados
+        ignore_cert: true
+        attachments: "./results/*csv"
+        priority: low
