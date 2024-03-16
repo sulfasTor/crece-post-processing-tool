@@ -1,10 +1,13 @@
 import os
-import requests
-import pandas as pd
 from datetime import datetime, timedelta
 
-_RESULTS_LIMIT=1000
-_MAX_PAGINATION_ITERATIONS=10
+import pandas as pd
+import requests
+
+_MAX_PAGINATION_ITERATIONS = 100
+_RESULTS_LIMIT = 1000
+_SYNC_INTERVAL_WEEKS = 2
+
 
 def get_member_list_df():
     data = get_member_list()
@@ -12,9 +15,9 @@ def get_member_list_df():
 
     return df
 
+
 def paginate_request(mailchimp_domain, list_id, params, auth):
     data = {"members": [], "total_items": 0}
-    offset = 0
     iterations = 0
     params["offset"] = 0
     params["count"] = _RESULTS_LIMIT
@@ -33,22 +36,26 @@ def paginate_request(mailchimp_domain, list_id, params, auth):
             )
         data["members"].extend(d["members"])
         params["offset"] = len(data["members"])
-        if int(d["total_items"]) <= _RESULTS_LIMIT or iterations >= _MAX_PAGINATION_ITERATIONS:
+        if (
+            int(d["total_items"]) <= _RESULTS_LIMIT
+            or iterations >= _MAX_PAGINATION_ITERATIONS
+        ):
             break
         iterations += 1
 
     return data
+
 
 def get_member_list():
     # https://mailchimp.com/developer/marketing/api/list-members/list-members-info/
     # https://mailchimp.com/developer/marketing/api/list-members/
     username = os.environ.get("MAILCHIMP_USERNAME")
     api_key = os.environ.get("MAILCHIMP_API_KEY")
-    mailchimp_domain = os.environ.get("MAILCHIMP_DOMAIN", "us21")
-    list_id = os.environ.get("MAILCHIMP_LIST_ID", "601b55d9dc")
-    since_last_changed = (datetime.now() - timedelta(weeks=105)).strftime(
-        "%Y-%m-%d %H:%M:$S"
-    )
+    mailchimp_domain = os.environ.get("MAILCHIMP_DOMAIN", "")
+    list_id = os.environ.get("MAILCHIMP_LIST_ID", "")
+    since_last_changed = (
+        datetime.now() - timedelta(weeks=_SYNC_INTERVAL_WEEKS)
+    ).strftime("%Y-%m-%d %H:%M:$S")
     params = {
         "since_last_changed": since_last_changed,
         "fields": "total_items,members.last_changed,members.email_address,members.merge_fields",
@@ -63,29 +70,22 @@ def get_member_list():
 
 
 def create_df(data):
-    fields = [
-        "last_changed",
-        "email_address"
-    ]
+    fields = ["last_changed", "email_address"]
     merge_fields = {
         "FNAME": "NAME",
         "LNAME": "LAST_NAME",
-        "MMERGE7": "CITY", # Ciudad
-        "MMERGE3": "CAMPUS", # Campus
+        "MMERGE7": "CITY",  # Ciudad
+        "MMERGE3": "CAMPUS",  # Campus
         "PHONE": "PHONE",
-        "MMERGE5": "IN_SITE", # Formato
-        "MMERGE6": "STATE", # Estado
-        "MMERGE8": "PRAYER_REQUEST", # Pedido de oracion
-        "MMERGE9": "FIRST_TIME", # Primera vez en MV
+        "MMERGE5": "IN_SITE",  # Formato
+        "MMERGE6": "STATE",  # Estado
+        "MMERGE8": "PRAYER_REQUEST",  # Pedido de oracion
+        "MMERGE9": "FIRST_TIME",  # Primera vez en MV
     }
     members = []
-    for m in data['members']:
-        mb = {
-            k: m.get(k) for k in fields
-        }
-        mb.update({
-            v: m['merge_fields'].get(k) for k, v in merge_fields.items()
-        })
+    for m in data["members"]:
+        mb = {k: m.get(k) for k in fields}
+        mb.update({v: m["merge_fields"].get(k) for k, v in merge_fields.items()})
         members.append(mb)
 
     df = pd.DataFrame(members)
@@ -95,6 +95,22 @@ def create_df(data):
     df["last_changed"] = df["last_changed"].dt.strftime("%d/%m/%Y")
     df.sort_values(by=["last_changed"], ascending=False, inplace=True)
 
-    df = df[["last_changed", "day", "month", "NAME", "LAST_NAME", "email_address", "PHONE", "CITY", "CAMPUS", "IN_SITE", "STATE", "PRAYER_REQUEST", "FIRST_TIME"]]
+    df = df[
+        [
+            "last_changed",
+            "day",
+            "month",
+            "NAME",
+            "LAST_NAME",
+            "email_address",
+            "PHONE",
+            "CITY",
+            "CAMPUS",
+            "IN_SITE",
+            "STATE",
+            "PRAYER_REQUEST",
+            "FIRST_TIME",
+        ]
+    ]
 
     return df

@@ -1,7 +1,14 @@
 import argparse
 import pathlib
 
-from post_processing_tool import FileProcessorApp, post_proces_df, write_csv, get_member_list_df, create_tk_root
+from post_processing_tool import (
+    FileProcessorApp,
+    create_tk_root,
+    get_member_list_df,
+    post_proces_df,
+    write_csv,
+)
+
 
 def setup_args():
     parser = argparse.ArgumentParser(
@@ -14,6 +21,7 @@ def setup_args():
     parser.add_argument("-c", "--console", action="store_true", default=False)
 
     return parser.parse_args()
+
 
 def main():
     args = setup_args()
@@ -28,13 +36,16 @@ def main():
                 write_csv(df, args.output_dir)
             else:
                 if not args.input_file:
-                    raise Exception("Input file not provided. Please add flag -i, --input_file [FILE_NAME]")
+                    raise Exception(
+                        "Input file not provided. Please add flag -i, --input_file [FILE_NAME]"
+                    )
                 df, _ = post_proces_df(args.input_file, args.output_dir)
     except Exception as e:
         print(f"FAIL, err: {str(e)}")
         return 1
 
     return 0
+
 
 if __name__ == "__main__":
     main()
