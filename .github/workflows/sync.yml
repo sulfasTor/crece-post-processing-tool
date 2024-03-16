@@ -1,0 +1,55 @@
+name: Sync contacts
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  sync:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install -r post_processing_tool/requirements.txt
+
+    - name: Generate csv
+      env:
+        MAILCHIMP_DOMAIN: ${{ secrets.CRECE_MAILCHIMP_DOMAIN }}
+        MAILCHIMP_LIST_ID: ${{ secrets.CRECE_MAILCHIMP_LIST_ID }}
+        MAILCHIMP_API_KEY: ${{ secrets.CRECE_MAILCHIMP_TOKEN }}
+        MAILCHIMP_USERNAME: ${{ secrets.CRECE_MAILCHIMP_USER }}
+      run: |
+        mkdir results
+        python main.py -c -d -o ./results
+        ls results
+
+    - name: Send csv
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.gmail.com
+        server_port: 465
+        secure: true
+        username: ${{ secrets.MAIL_ADDRESS }}
+        password: ${{ secrets.CRECE_SENDER_APP_PWD }}
+        subject: "CRECE NUEVOS: Sync bisemanal"
+        to: ${{ secrets.CRECE_RECIPIENT_EMAIL }}
+        cc: "torresmoisesa@gmail.com"
+        from: "botcrece"
+        body: |
+          Este es un correo automatizado. Se envian en documento adjunto los contactos recopilados en las ultimas dos semanas.
+
+          Para cualquier duda favor de enviar mensaje a torresmoisesa@gmail.com.
+        reply_to: torresmoisesa@gmail.com
+        ignore_cert: true
+        attachments: "./results/*csv"
+        priority: low
