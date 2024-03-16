@@ -7,8 +7,7 @@ on:
   workflow_dispatch:
 
   schedule:
-    cron:
-      - '0 0 * * 0'
+    - cron: '0 0 * * 0'
 
 jobs:
   sync:
@@ -40,15 +39,19 @@ jobs:
     - name: Send csv
       uses: dawidd6/action-send-mail@v3
       with:
-        server_addres: smtp.gmail.com
+        server_address: smtp.gmail.com
         server_port: 465
         secure: true
         username: ${{ secrets.MAIL_ADDRESS }}
         password: ${{ secrets.CRECE_SENDER_APP_PWD }}
-        subject: "CRECE: Nuevos sync semanal"
+        subject: "CRECE NUEVOS: Sync bisemanal"
         to: ${{ secrets.CRECE_RECIPIENT_EMAIL }}
-        from: ${{ secrets.MAIL_ADDRESS }}
-        body: Correo automatizado. Se adjunta csv con ultimos datos recopilados
+        from: "botcrece"
+        body: |
+          "Este es un correo automatizado. Se envian en documento adjunto los contactos recopilados en las ultimas dos semanas.
+
+          Para cualquier duda favor de enviar mensaje a torresmoisesa@gmail.com."
+        reply_to: torresmoisesa@gmail.com
         ignore_cert: true
         attachments: "./results/*csv"
         priority: low
