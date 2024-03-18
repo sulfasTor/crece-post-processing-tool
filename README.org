@@ -1,7 +1,1 @@
 * CRECE Post Processing Tool
-
-** Terraform
-Builds GCP infra with terraform scripts
-
-** Python script
-Does all post processing work
