@@ -49,7 +49,7 @@ jobs:
         username: ${{ secrets.MAIL_ADDRESS }}
         password: ${{ secrets.CRECE_SENDER_APP_PWD }}
         subject: "CRECE NUEVOS: Sync semanal"
-        to: "torresmoisesa@gmail.com"
+        to: ${{ secrets.CRECE_RECIPIENT_EMAIL }}
         cc: "torresmoisesa@gmail.com"
         from: "botcrece"
         body: |
