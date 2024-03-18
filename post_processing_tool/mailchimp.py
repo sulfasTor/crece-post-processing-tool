@@ -6,7 +6,7 @@ import requests
 
 _MAX_PAGINATION_ITERATIONS = 100
 _RESULTS_LIMIT = 1000
-_SYNC_INTERVAL_WEEKS = 2
+_SYNC_INTERVAL_WEEKS = int(os.environ.get("CRECE_SYNC_INTERVAL_WEEKS", 2))
 
 
 def get_member_list_df():
@@ -92,8 +92,8 @@ def create_df(data):
     df["last_changed"] = pd.to_datetime(df["last_changed"])
     df["month"] = df["last_changed"].dt.strftime("%-m")
     df["day"] = df["last_changed"].dt.strftime("%-d")
-    df["last_changed"] = df["last_changed"].dt.strftime("%d/%m/%Y")
     df.sort_values(by=["last_changed"], ascending=False, inplace=True)
+    df["last_changed"] = df["last_changed"].dt.strftime("%d/%m/%Y")
 
     df = df[
         [

@@ -2,6 +2,12 @@ name: Sync contacts
 
 on:
   workflow_dispatch:
+    inputs:
+      syncIntervalWeeks:
+        description: Sync contacts from last n weeks
+        required: false
+        default: 2
+        type: string
 
   schedule:
     - cron: '0 3 * * 1' # UTC
@@ -28,6 +34,7 @@ jobs:
         MAILCHIMP_LIST_ID: ${{ secrets.CRECE_MAILCHIMP_LIST_ID }}
         MAILCHIMP_API_KEY: ${{ secrets.CRECE_MAILCHIMP_TOKEN }}
         MAILCHIMP_USERNAME: ${{ secrets.CRECE_MAILCHIMP_USER }}
+        CRECE_SYNC_INTERVAL_WEEKS: ${{ inputs.syncIntervalWeeks || 2 }}
       run: |
         mkdir results
         python main.py -c -d -o ./results
@@ -41,12 +48,12 @@ jobs:
         secure: true
         username: ${{ secrets.MAIL_ADDRESS }}
         password: ${{ secrets.CRECE_SENDER_APP_PWD }}
-        subject: "CRECE NUEVOS: Sync bisemanal"
-        to: ${{ secrets.CRECE_RECIPIENT_EMAIL }}
+        subject: "CRECE NUEVOS: Sync semanal"
+        to: "torresmoisesa@gmail.com"
         cc: "torresmoisesa@gmail.com"
         from: "botcrece"
         body: |
-          Este es un correo automatizado. Se envian en documento adjunto los contactos recopilados en las ultimas dos semanas.
+          Este es un correo automatizado. Se envian en documento adjunto los contactos recopilados en las ultimas ${{ inputs.syncIntervalWeeks || 2 }} semanas.
 
           Para cualquier duda favor de enviar mensaje a torresmoisesa@gmail.com.
         reply_to: torresmoisesa@gmail.com
