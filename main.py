@@ -7,18 +7,20 @@ from post_processing_tool import (
     get_member_list_df,
     post_proces_df,
     write_csv,
+    generate_report
 )
 
 
 def setup_args():
     parser = argparse.ArgumentParser(
         prog="crece-post-processing-tool",
-        description="This tool does specific task for crece team",
+        description="This tool execute specific tasks for team CRECE. A GUI is provided if console flag is not set.",
     )
-    parser.add_argument("-i", "--input_file", type=pathlib.Path)
-    parser.add_argument("-o", "--output_dir", default=".")
-    parser.add_argument("-d", "--download", action="store_true")
-    parser.add_argument("-c", "--console", action="store_true", default=False)
+    parser.add_argument("-i", "--input_file", type=pathlib.Path, help="If download flag is not set pass a path to csv")
+    parser.add_argument("-o", "--output_dir", default=".", help="Output directory")
+    parser.add_argument("-d", "--download", action="store_true", help="If set download data from Mailchimp. Environment variables are required.")
+    parser.add_argument("-c", "--console", action="store_true", default=False, help="If set don't start user interface")
+    parser.add_argument("-r", "--report", action="store_true", default=False, help="Generate a report from data")
 
     return parser.parse_args()
 
@@ -40,6 +42,9 @@ def main():
                         "Input file not provided. Please add flag -i, --input_file [FILE_NAME]"
                     )
                 df, _ = post_proces_df(args.input_file, args.output_dir)
+
+            if args.report:
+                print(generate_report(df))
     except Exception as e:
         print(f"FAIL, err: {str(e)}")
         return 1

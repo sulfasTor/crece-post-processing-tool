@@ -5,3 +5,4 @@ chardet==4.0.0
 scikit-learn
 scipy
 matplotlib
+jinja2

@@ -3,8 +3,7 @@ from datetime import datetime
 
 import pandas as pd
 
-
-def post_proces_df(filename, out_dir):
+def post_proces_df(filename:str, out_dir:str):
     try:
         df = pd.read_csv(filename, encoding="utf-8", encoding_errors="ignore")
     except Exception as e:
@@ -22,7 +21,7 @@ def post_proces_df(filename, out_dir):
     return df, full_path
 
 
-def write_csv(df, out_dir):
+def write_csv(df: pd.DataFrame, out_dir:str):
     if df is None:
         raise Exception("Couldn't write csv: Empty dataframe.")
     filename = f'crece_nuevos_{datetime.now().strftime("%d_%m_%Y_%H_%M_%S")}.csv'
