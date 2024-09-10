@@ -3,7 +3,8 @@ from datetime import datetime
 
 import pandas as pd
 
-def post_process_df(filename:str, out_dir:str):
+
+def post_process_df(filename: str, out_dir: str):
     try:
         df = pd.read_csv(filename, encoding="utf-8", encoding_errors="ignore")
     except Exception as e:
@@ -22,7 +23,7 @@ def post_process_df(filename:str, out_dir:str):
         "Ciudad": "CITY",  # Ciudad
         "Campus": "CAMPUS",  # Campus
         "Teléfono": "PHONE",
-        "¿Desde qué ubicación conectaste con nosotros?": "IN_SITE", # Formato
+        "¿Desde qué ubicación conectaste con nosotros?": "IN_SITE",  # Formato
         "Si seleccionaste otro, menciona desde donde.": "STATE",  # Estado
         "Petición de oración": "PRAYER_REQUEST",  # Pedido de oracion
         "CUENTANOS DE TI": "FIRST_TIME",
@@ -34,7 +35,7 @@ def post_process_df(filename:str, out_dir:str):
     return df, full_path
 
 
-def write_csv(df: pd.DataFrame, out_dir:str):
+def write_csv(df: pd.DataFrame, out_dir: str):
     if df is None:
         raise Exception("Couldn't write csv: Empty dataframe.")
     filename = f'crece_nuevos_{datetime.now().strftime("%d_%m_%Y_%H_%M_%S")}.csv'

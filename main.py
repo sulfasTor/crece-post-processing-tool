@@ -4,11 +4,11 @@ import pathlib
 from post_processing_tool import (
     FileProcessorApp,
     create_tk_root,
+    generate_report,
     get_member_list_df,
     post_process_df,
     write_csv,
     write_html,
-    generate_report,
 )
 
 
@@ -17,11 +17,29 @@ def setup_args():
         prog="crece-post-processing-tool",
         description="This tool execute specific tasks for team CRECE. A GUI is provided if console flag is not set.",
     )
-    parser.add_argument("-i", "--input_file", type=pathlib.Path, help="If download flag is not set pass a path to csv")
+    parser.add_argument(
+        "-i",
+        "--input_file",
+        type=pathlib.Path,
+        help="If download flag is not set pass a path to csv",
+    )
     parser.add_argument("-o", "--output_dir", default=".", help="Output directory")
-    parser.add_argument("-d", "--download", action="store_true", help="If set download data from Mailchimp. Environment variables are required.")
-    parser.add_argument("-c", "--console", action="store_true", default=False, help="If set don't start user interface")
-    parser.add_argument("-r", "--report_template", type=pathlib.Path, help="Path to report template.")
+    parser.add_argument(
+        "-d",
+        "--download",
+        action="store_true",
+        help="If set download data from Mailchimp. Environment variables are required.",
+    )
+    parser.add_argument(
+        "-c",
+        "--console",
+        action="store_true",
+        default=False,
+        help="If set don't start user interface",
+    )
+    parser.add_argument(
+        "-r", "--report_template", type=pathlib.Path, help="Path to report template."
+    )
 
     return parser.parse_args()
 
