@@ -28,3 +28,6 @@ options:
 | MAILCHIMP_API_KEY         | -       |
 | MAILCHIMP_DOMAIN          | -       |
 | MAILCHIMP_LIST_ID         | -       |
+
+* Backlog
+[[file:docs/requirements.org]]
