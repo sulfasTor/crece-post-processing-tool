@@ -37,7 +37,7 @@ jobs:
         CRECE_SYNC_INTERVAL_WEEKS: ${{ inputs.syncIntervalWeeks || 2 }}
       run: |
         mkdir results
-        python main.py -c -d -o ./results
+        python main.py -c -d -o ./results -r ./templates/report_template.html.j2
         ls results
 
     - name: Send csv
@@ -49,14 +49,12 @@ jobs:
         username: ${{ secrets.MAIL_ADDRESS }}
         password: ${{ secrets.CRECE_SENDER_APP_PWD }}
         subject: "CRECE NUEVOS: Sync semanal"
-        to: ${{ secrets.CRECE_RECIPIENT_EMAIL }}
-        cc: "torresmoisesa@gmail.com"
+        # to: ${{ secrets.CRECE_RECIPIENT_EMAIL }}
+        to: "torresmoisesa@gmail.com"
+        #cc: "torresmoisesa@gmail.com"
         from: "botcrece"
-        body: |
-          Este es un correo automatizado. Se envian en documento adjunto los contactos recopilados en las ultimas ${{ inputs.syncIntervalWeeks || 2 }} semanas.
-
-          Para cualquier duda favor de enviar mensaje a torresmoisesa@gmail.com.
+        html_body: "file://index.html"
         reply_to: torresmoisesa@gmail.com
         ignore_cert: true
-        attachments: "./results/*csv"
+        attachments: "./results/*csv,format_hist_img.png,format_cities_img.png"
         priority: low

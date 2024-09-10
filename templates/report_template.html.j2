@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly report</title>
+    <style>
+      body {
+      margin: 2em;
+      font-family: Arial, Helvetica, sans-serif;
+      }
+
+      table,
+      th,
+      td {
+      border: 1px solid #555;
+      border-collapse: collapse;
+      padding: 0.25em;
+      }
+    </style>
+  </head>
+
+  <body class="container">
+    <p style="page-break-after: always;">&nbsp;
+      <h2>CRECE Reporte semanal</h2>
+      Este es un correo automatizado. Se envian en documento adjunto los contactos recopilados en las ultimas {{ syncIntervalWeeks }} semanas.
+
+
+      Para cualquier duda favor de enviar mensaje a <a href= "mailto: torresmoises@gmail.com"> torresmoises@gmail.com </a>.
+    </p>
+
+    <p style="page-break-after: always;">&nbsp;</p>
+    Se encontraron {{ numberSubscribers }} nuevos del dia {{ fromDate }} al {{ toDate }}.
+    <h2>Distribucion Presencial/En Linea</h2>
+    <img class="img-fluid" src="cid:{{ formatChartImgPath }}" alt="Format Chart Image">
+
+    <p style="page-break-after: always;">&nbsp;</p>
+    <h2>Distribucion Ciudades (Top 10)</h2>
+    <img class="img-fluid" src="cid:{{ citiesChartImgPath }}" alt="Cities Chart Image">
+
+  </body>
+
+</html>

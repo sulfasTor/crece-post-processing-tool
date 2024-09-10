@@ -1,1 +1,29 @@
-* CRECE Post Processing Tool
+#+TITLE: CRECE Post Processing Tool
+
+* Usage
+#+begin_src text
+usage: crece-post-processing-tool [-h] [-i INPUT_FILE] [-o OUTPUT_DIR] [-d] [-c] [-r]
+
+This tool execute specific tasks for team CRECE. A GUI is provided if console flag is not set.
+
+options:
+  -h, --help            show this help message and exit
+  -i INPUT_FILE, --input_file INPUT_FILE
+                        If download flag is not set pass a path to csv
+  -o OUTPUT_DIR, --output_dir OUTPUT_DIR
+                        Output directory
+  -d, --download        If set download data from Mailchimp. Environment variables are required.
+  -c, --console         If set don't start user interface
+  -r, --report          Generate a report from data
+
+#+end_src
+
+
+* Environment variables
+| ENV                       | Default |
+|---------------------------+---------|
+| CRECE_SYNC_INTERVAL_WEEKS | 2       |
+| MAILCHIMP_USERNAME        | -       |
+| MAILCHIMP_API_KEY         | -       |
+| MAILCHIMP_DOMAIN          | -       |
+| MAILCHIMP_LIST_ID         | -       |

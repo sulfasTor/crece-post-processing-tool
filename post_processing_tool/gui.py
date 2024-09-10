@@ -4,6 +4,7 @@ from tkinter import filedialog
 
 
 class FileProcessorApp:
+
     def __init__(self, root, callback_function):
         self.root = root
         self.callback_function = callback_function
