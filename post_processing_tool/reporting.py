@@ -5,7 +5,7 @@ from typing import Dict, List
 
 import matplotlib.pyplot as plt
 from jinja2 import Environment, FileSystemLoader
-from pandas import DataFrame
+from pandas import DataFrame, to_datetime
 
 
 def render_template(context: Dict, template_path: str, template_dir: str = "./") -> str:
@@ -41,7 +41,8 @@ def generate_format_dist(df: DataFrame) -> str:
 
 
 def get_stats(df: DataFrame) -> List:
-    return [df.shape[0], df["last_changed"].min(), df["last_changed"].max()]
+    df["last_changed"] = to_datetime(df["last_changed"], format="%d/%m/%Y")
+    return [df.shape[0], min(df["last_changed"]), max(df["last_changed"])]
 
 
 def generate_report(df: DataFrame, template_path) -> str:
