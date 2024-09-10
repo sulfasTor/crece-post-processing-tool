@@ -2,7 +2,7 @@ import base64
 import io
 import os
 from datetime import datetime
-from typing import Dict
+from typing import Dict, List
 
 from pandas import DataFrame
 from jinja2 import Environment, FileSystemLoader
@@ -45,14 +45,26 @@ def generate_format_dist(df: DataFrame) -> str:
     return write_fig(plt, "format_hist_img.png")
 
 
+def get_stats(df: DataFrame) -> List:
+    return [
+        df.shape[0],
+        df['last_changed'].min(),
+        df['last_changed'].max()
+    ]
+
+
 def generate_report(df: DataFrame, template_path) -> Dict[str, str]:
     location_img_path = generate_location_dist(df)
     format_img_path = generate_format_dist(df)
+    s = get_stats(df)
 
     context = {
         "syncIntervalWeeks": os.environ.get("CRECE_SYNC_INTERVAL_WEEKS", 2),
         "formatChartImgPath": format_img_path,
         "citiesChartImgPath": location_img_path,
+        "numberSubscribers": s[0],
+        "fromDate": s[1],
+        "toDate": s[2],
     }
     report = render_template(context, template_path)
     return report

@@ -9,12 +9,12 @@ def post_process_df(filename:str, out_dir:str):
     except Exception as e:
         raise Exception(f"Something went wrong reading csv: {str(e)}")
     print(f'### Found csv with columns: {", ".join(df.columns.tolist())}')
-    df["LAST_CHANGED"] = pd.to_datetime(df["LAST_CHANGED"], format="%Y-%m-%d %H:%M:%S")
-    df.sort_values(by=["LAST_CHANGED"], ascending=False, inplace=True)
-    df["MES"] = df["LAST_CHANGED"].dt.strftime("%-m")
-    df["DIA"] = df["LAST_CHANGED"].dt.strftime("%-d")
-    df["LAST_CHANGED"] = df["LAST_CHANGED"].dt.strftime("%d/%m/%Y")
-    df = df[["LAST_CHANGED", "MES", "DIA"] + df.columns[:10].tolist()]
+    df["last_changed"] = pd.to_datetime(df["LAST_CHANGED"], format="%Y-%m-%d %H:%M:%S")
+    df.sort_values(by=["last_changed"], ascending=False, inplace=True)
+    df["MES"] = df["last_changed"].dt.strftime("%-m")
+    df["DIA"] = df["last_changed"].dt.strftime("%-d")
+    df["last_changed"] = df["last_changed"].dt.strftime("%d/%m/%Y")
+    df = df[["last_changed", "MES", "DIA"] + df.columns[:10].tolist()]
 
     rename_fields = {
         "Nombre": "NAME",
