@@ -1,14 +1,12 @@
+import pandas as pd
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
-
-from typing import List
-
-import pandas as pd
+from sklearn.utils import Bunch
 
 
-def train() -> (SVC, TfidfVectorizer, Any):
+def train() -> (SVC, TfidfVectorizer, Bunch):
     # Load dataset
     newsgroups = fetch_20newsgroups(subset='all',
                                     categories=['soc.religion.christian',
@@ -45,7 +43,7 @@ def train() -> (SVC, TfidfVectorizer, Any):
 def predict_category(text: str,
                      clf: SVC,
                      vectorizer: TfidfVectorizer,
-                     newsgroups: Any):
+                     newsgroups: Bunch):
     """
     Predict the category of a given text using the trained classifier.
     """
