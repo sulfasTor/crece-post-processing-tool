@@ -12,10 +12,10 @@ import matplotlib.pyplot as plt
 def render_template(
         context:Dict,
         template_path:str,
-        template_dir:str="./templates"
+        template_dir:str="./"
 ) -> str:
     template = Environment(
-        loader=FileSystemLoader(template_path)
+        loader=FileSystemLoader(template_dir)
     ).get_template(template_path)
 
     report = template.render(context)
@@ -52,11 +52,10 @@ def generate_report(df: DataFrame, template_path) -> Dict[str, str]:
     context = {
         "syncIntervalWeeks": os.environ.get("CRECE_SYNC_INTERVAL_WEEKS", 2),
         "formatChartImg": format_b64_img,
-        "locationChartImg": format_b64_img
+        "citiesChartImg": format_b64_img,
     }
     report = render_template(context, template_path)
-
-    print(report)
+    return report
 
 
 def fig_to_base64(plt) -> str:
@@ -66,3 +65,8 @@ def fig_to_base64(plt) -> str:
     b64Img = base64.b64encode(imgBytes.read()).decode()
 
     return b64Img
+
+def write_html(html, html_path):
+    with open(html_path, 'w') as f:
+        f.write(html)
+    print(f"### Succesfully wrote HTML file to path: {html_path}")

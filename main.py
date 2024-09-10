@@ -7,7 +7,8 @@ from post_processing_tool import (
     get_member_list_df,
     post_process_df,
     write_csv,
-    generate_report
+    write_html,
+    generate_report,
 )
 
 
@@ -20,7 +21,7 @@ def setup_args():
     parser.add_argument("-o", "--output_dir", default=".", help="Output directory")
     parser.add_argument("-d", "--download", action="store_true", help="If set download data from Mailchimp. Environment variables are required.")
     parser.add_argument("-c", "--console", action="store_true", default=False, help="If set don't start user interface")
-    parser.add_argument("-r", "--report_template", type=pathlib.Path, help="Path to ")
+    parser.add_argument("-r", "--report_template", type=pathlib.Path, help="Path to report template.")
 
     return parser.parse_args()
 
@@ -44,13 +45,12 @@ def main():
                 df, _ = post_process_df(args.input_file, args.output_dir)
 
             if args.report_template:
-                print(generate_report(df, args.report_template))
+                report = generate_report(df, str(args.report_template))
+                write_html(report, "index.html")
             else:
                 print("Skipping report since it was not provided.")
     except Exception as e:
-        print(f"FAIL, err: {str(e)}")
-        return 1
-
+        raise e
     return 0
 
 
