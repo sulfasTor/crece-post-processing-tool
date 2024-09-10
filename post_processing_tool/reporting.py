@@ -26,8 +26,8 @@ def render_template(
 def generate_location_dist(df: DataFrame) -> str:
     plt.cla()
     df = df["CITY"].dropna().str.upper().value_counts().nlargest(10)
-    plt.bar(range(len(df)), df.values, align='center')
-    plt.xticks(range(len(df)), df.index.values, size='small', rotation=45, color='black')
+    plt.bar(range(len(df)), df.values, align='center', color='black')
+    plt.xticks(range(len(df)), df.index.values, size='small', rotation=45)
     plt.xlabel("Cities")
     plt.ylabel("Frequency")
     plt.title("Cities Frequency")
@@ -52,7 +52,7 @@ def generate_report(df: DataFrame, template_path) -> Dict[str, str]:
     context = {
         "syncIntervalWeeks": os.environ.get("CRECE_SYNC_INTERVAL_WEEKS", 2),
         "formatChartImg": format_b64_img,
-        "citiesChartImg": format_b64_img,
+        "citiesChartImg": location_b64_img,
     }
     report = render_template(context, template_path)
     return report

@@ -22,19 +22,20 @@
   </head>
 
   <body class="container">
-    <p style="page-break-after: always;">&nbsp;</p>
-    <p>
+    <p style="page-break-after: always;">&nbsp;
+      <h2>CRECE Reporte semanal</h2>
       Este es un correo automatizado. Se envian en documento adjunto los contactos recopilados en las ultimas {{ syncIntervalWeeks }} semanas.
 
-      Para cualquier duda favor de enviar mensaje a torresmoisesa@gmail.com.
+
+      Para cualquier duda favor de enviar mensaje a <a href= "mailto: torresmoises@gmail.com"> torresmoises@gmail.com </a>.
     </p>
 
     <p style="page-break-after: always;">&nbsp;</p>
-    <h2>Format Dist Chart</h2>
+    <h2>Distribucion Presencial/En Linea</h2>
     <img class="img-fluid" src="data:image/jpeg;base64, {{ formatChartImg | safe }}" alt="Format Chart Image">
 
     <p style="page-break-after: always;">&nbsp;</p>
-    <h2>Cities Dist Chart</h2>
+    <h2>Distribucion Ciudades (Top 10)</h2>
     <img class="img-fluid" src="data:image/jpeg;base64, {{ citiesChartImg | safe }}" alt="Cities Chart Image">
 
   </body>
