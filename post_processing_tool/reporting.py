@@ -45,11 +45,18 @@ def generate_format_dist(df: DataFrame) -> str:
     return fig_to_base64(plt)
 
 
-def generate_report(df: DataFrame) -> Dict[str, str]:
-    location_dif = generate_location_dist(df)
-    format_fig = generate_format_dist(df)
+def generate_report(df: DataFrame, template_path) -> Dict[str, str]:
+    location_b64_img = generate_location_dist(df)
+    format_b64_img = generate_format_dist(df)
 
-    
+    context = {
+        "syncIntervalWeeks": os.environ.get("CRECE_SYNC_INTERVAL_WEEKS", 2),
+        "formatChartImg": format_b64_img,
+        "locationChartImg": format_b64_img
+    }
+    report = render_template(context, template_path)
+
+    print(report)
 
 
 def fig_to_base64(plt) -> str:

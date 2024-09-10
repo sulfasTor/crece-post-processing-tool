@@ -20,7 +20,7 @@ def setup_args():
     parser.add_argument("-o", "--output_dir", default=".", help="Output directory")
     parser.add_argument("-d", "--download", action="store_true", help="If set download data from Mailchimp. Environment variables are required.")
     parser.add_argument("-c", "--console", action="store_true", default=False, help="If set don't start user interface")
-    parser.add_argument("-r", "--report", action="store_true", default=False, help="Generate a report from data")
+    parser.add_argument("-r", "--report_template", type=pathlib.Path, help="Path to ")
 
     return parser.parse_args()
 
@@ -43,8 +43,10 @@ def main():
                     )
                 df, _ = post_process_df(args.input_file, args.output_dir)
 
-            if args.report:
-                print(generate_report(df))
+            if args.report_template:
+                print(generate_report(df, args.report_template))
+            else:
+                print("Skipping report since it was not provided.")
     except Exception as e:
         print(f"FAIL, err: {str(e)}")
         return 1
