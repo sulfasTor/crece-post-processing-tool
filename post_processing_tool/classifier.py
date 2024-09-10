@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import pandas as pd
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -6,7 +8,7 @@ from sklearn.svm import SVC
 from sklearn.utils import Bunch
 
 
-def train() -> (SVC, TfidfVectorizer, Bunch):
+def train() -> Tuple(SVC, TfidfVectorizer, Bunch):
     # Load dataset
     newsgroups = fetch_20newsgroups(subset='all',
                                     categories=['soc.religion.christian',

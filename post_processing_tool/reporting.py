@@ -52,7 +52,7 @@ def get_stats(df: DataFrame) -> List:
     ]
 
 
-def generate_report(df: DataFrame, template_path) -> Dict[str, str]:
+def generate_report(df: DataFrame, template_path) -> str:
     location_img_path = generate_location_dist(df)
     format_img_path = generate_format_dist(df)
     s = get_stats(df)
