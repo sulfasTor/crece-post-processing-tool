@@ -8,8 +8,7 @@ from sklearn.svm import SVC
 from sklearn.utils import Bunch
 
 
-def train() -> Tuple(SVC, TfidfVectorizer, Bunch):
-    # Load dataset
+def train() -> Tuple[SVC, TfidfVectorizer, Bunch]:
     newsgroups = fetch_20newsgroups(subset='all',
                                     categories=['soc.religion.christian',
                                                 'talk.religion.misc',
@@ -18,24 +17,17 @@ def train() -> Tuple(SVC, TfidfVectorizer, Bunch):
     data = newsgroups.data
     target = newsgroups.target
 
-    # Create a DataFrame for easy manipulation
     df = pd.DataFrame({'text': data, 'label': target})
     vectorizer = TfidfVectorizer(stop_words='english',
                                  strip_accents='ascii',
                                  max_df=0.7)
 
-    # Transform the text data to feature vectors
     X = vectorizer.fit_transform(df['text'])
-
-    # Labels
     y = df['label']
-
-    # Split the dataset into training and testing sets
     X_train, _, y_train, _ = train_test_split(X, y,
                                                         test_size=0.3,
                                                         random_state=42)
 
-    # Initialize and train the classifier
     clf = SVC(kernel='linear')
     clf.fit(X_train, y_train)
 
