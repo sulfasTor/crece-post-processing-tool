@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: read
+      contents: write
       packages: read
       statuses: write
 
@@ -41,6 +41,6 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           branch: ${{ github.event.pull_request.head.ref || github.head_ref || github.ref }}
-          commit_message: "chore: fix linting issues"
+          commit_message: "chore: fix linting issues skip-checks:true"
           commit_user_name: super-linter
           commit_user_email: super-linter@super-linter.dev
