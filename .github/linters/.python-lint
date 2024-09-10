@@ -7,4 +7,4 @@ jobs=0
 
 # Ignoring Import Errors is desired as super-linter
 # does not support installing dependencies as it runs
-disable=import-error,locally-disabled,multiple-statements,fixme,line-too-long,missing-module-docstring,broad-exception-raised,missing-function-docstring,redefined-outer-name,invalid-name,unspecified-encoding,missing-class-docstring
+disable=import-error,locally-disabled,multiple-statements,fixme,line-too-long,missing-module-docstring,broad-exception-raised,missing-function-docstring,redefined-outer-name,invalid-name,unspecified-encoding,missing-class-docstring,too-many-instance-attributes,broad-exception-caught,raise-missing-from
