@@ -30,4 +30,4 @@ options:
 | MAILCHIMP_LIST_ID         | -       |
 
 * Backlog
-[[file:docs/requirements.org]]
+[[file:docs/requirements.md]]
