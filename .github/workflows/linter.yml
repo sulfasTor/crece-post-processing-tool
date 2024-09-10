@@ -23,7 +23,7 @@ jobs:
           fetch-depth: 0
 
       - name: Run linter
-        uses: super-linter/super-linter@v4
+        uses: super-linter/super-linter@v7
         env:
           DEFAUL_BRANCH: master
           GITHUB_TOKEN: ${{ github.token }}
