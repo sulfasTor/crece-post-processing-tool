@@ -56,5 +56,5 @@ jobs:
         html_body: "file://index.html"
         reply_to: torresmoisesa@gmail.com
         ignore_cert: true
-        attachments: "./results/*csv"
+        attachments: "./results/*csv,format_hist_img.png,format_cities_img.png"
         priority: low

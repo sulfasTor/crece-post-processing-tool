@@ -32,7 +32,7 @@ def generate_location_dist(df: DataFrame) -> str:
     plt.ylabel("Frequency")
     plt.title("Cities Frequency")
 
-    return fig_to_base64(plt)
+    return write_fig(plt, "format_cities_img.png")
 
 
 def generate_format_dist(df: DataFrame) -> str:
@@ -42,20 +42,26 @@ def generate_format_dist(df: DataFrame) -> str:
     plt.ylabel("Frequency")
     plt.title("Format Frequency")
 
-    return fig_to_base64(plt)
+    return write_fig(plt, "format_hist_img.png")
 
 
 def generate_report(df: DataFrame, template_path) -> Dict[str, str]:
-    location_b64_img = generate_location_dist(df)
-    format_b64_img = generate_format_dist(df)
+    location_img_path = generate_location_dist(df)
+    format_img_path = generate_format_dist(df)
 
     context = {
         "syncIntervalWeeks": os.environ.get("CRECE_SYNC_INTERVAL_WEEKS", 2),
-        "formatChartImg": format_b64_img,
-        "citiesChartImg": location_b64_img,
+        "formatChartImgPath": format_img_path,
+        "citiesChartImgPath": location_img_path,
     }
     report = render_template(context, template_path)
     return report
+
+
+def write_fig(plt, fig_name) -> str:
+    plt.savefig(fig_name)
+
+    return fig_name
 
 
 def fig_to_base64(plt) -> str:
