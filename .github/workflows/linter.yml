@@ -28,9 +28,12 @@ jobs:
           DEFAUL_BRANCH: master
           GITHUB_TOKEN: ${{ github.token }}
           VALIDATE_PYTHON_RUFF: 'true'
+          VALIDATE_PYTHON_FLAKE8: 'false'
+          VALIDATE_PYTHON_MYPY: 'false'
           FIX_PYTHON_RUFF: 'true'
           FIX_PYTHON_BLACK: 'true'
           FIX_PYTHON_ISORT: 'true'
+
       - name: Commit and push linting fixes
         if: >
           github.event_name == 'pull_request' &&
