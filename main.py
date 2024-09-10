@@ -5,7 +5,7 @@ from post_processing_tool import (
     FileProcessorApp,
     create_tk_root,
     get_member_list_df,
-    post_proces_df,
+    post_process_df,
     write_csv,
     generate_report
 )
@@ -30,7 +30,7 @@ def main():
     try:
         if not args.console:
             root = create_tk_root()
-            FileProcessorApp(root, post_proces_df)
+            FileProcessorApp(root, post_process_df)
             root.mainloop()
         else:
             if args.download:
@@ -41,7 +41,7 @@ def main():
                     raise Exception(
                         "Input file not provided. Please add flag -i, --input_file [FILE_NAME]"
                     )
-                df, _ = post_proces_df(args.input_file, args.output_dir)
+                df, _ = post_process_df(args.input_file, args.output_dir)
 
             if args.report:
                 print(generate_report(df))

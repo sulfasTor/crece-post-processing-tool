@@ -3,7 +3,7 @@ from datetime import datetime
 
 import pandas as pd
 
-def post_proces_df(filename:str, out_dir:str):
+def post_process_df(filename:str, out_dir:str):
     try:
         df = pd.read_csv(filename, encoding="utf-8", encoding_errors="ignore")
     except Exception as e:
@@ -15,8 +15,21 @@ def post_proces_df(filename:str, out_dir:str):
     df["DIA"] = df["LAST_CHANGED"].dt.strftime("%-d")
     df["LAST_CHANGED"] = df["LAST_CHANGED"].dt.strftime("%d/%m/%Y")
     df = df[["LAST_CHANGED", "MES", "DIA"] + df.columns[:10].tolist()]
-    print(f"Succesfully post processed csv: {filename}")
 
+    rename_fields = {
+        "Nombre": "NAME",
+        "Apellido": "LAST_NAME",
+        "Ciudad": "CITY",  # Ciudad
+        "Campus": "CAMPUS",  # Campus
+        "Teléfono": "PHONE",
+        "¿Desde qué ubicación conectaste con nosotros?": "IN_SITE", # Formato
+        "Si seleccionaste otro, menciona desde donde.": "STATE",  # Estado
+        "Petición de oración": "PRAYER_REQUEST",  # Pedido de oracion
+        "CUENTANOS DE TI": "FIRST_TIME",
+    }
+    df.rename(columns=rename_fields, inplace=True)
+
+    print(f"Succesfully post processed csv: {filename}")
     full_path = write_csv(df, out_dir)
     return df, full_path
 

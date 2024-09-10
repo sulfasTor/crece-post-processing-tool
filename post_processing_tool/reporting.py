@@ -24,23 +24,37 @@ def render_template(
 
 
 def generate_location_dist(df: DataFrame) -> str:
-    df["CITY"].head()
-    fig = None
-    return fig_to_base64(fig)
+    plt.cla()
+    df = df["CITY"].dropna().str.upper().value_counts().nlargest(10)
+    plt.bar(range(len(df)), df.values, align='center')
+    plt.xticks(range(len(df)), df.index.values, size='small', rotation=45, color='black')
+    plt.xlabel("Cities")
+    plt.ylabel("Frequency")
+    plt.title("Cities Frequency")
+
+    return fig_to_base64(plt)
 
 
-def generate_online_dist(df: DataFrame) -> str:
-    fig = None
-    return fig_to_base64(fig)
+def generate_format_dist(df: DataFrame) -> str:
+    plt.cla()
+    df["IN_SITE"].hist(grid=False, color="black", width=0.7)
+    plt.xlabel("Format")
+    plt.ylabel("Frequency")
+    plt.title("Format Frequency")
+
+    return fig_to_base64(plt)
 
 
 def generate_report(df: DataFrame) -> Dict[str, str]:
-    generate_location_dist(df)
+    location_dif = generate_location_dist(df)
+    format_fig = generate_format_dist(df)
+
+    
 
 
-def fig_to_base64(fig) -> str:
+def fig_to_base64(plt) -> str:
     imgBytes = io.BytesIO()
-    fig.savefig(imgBytes, format='jpg')
+    plt.savefig(imgBytes, format='jpg')
     imgBytes.seek(0)
     b64Img = base64.b64encode(imgBytes.read()).decode()
 
