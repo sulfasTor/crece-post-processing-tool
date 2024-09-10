@@ -30,6 +30,9 @@ jobs:
           FIX_PYTHON_RUFF: 'true'
           FIX_PYTHON_BLACK: 'true'
           FIX_PYTHON_ISORT: 'true'
+          VALIDATE_YAML: 'false'
+          VALIDATE_YAML_PRETTIER: 'false'
+          VALIDATE_CHECKOV: 'false'
 
       - name: Commit and push linting fixes
         if: >

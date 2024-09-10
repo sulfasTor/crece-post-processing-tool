@@ -8,7 +8,7 @@ from typing import List
 import pandas as pd
 
 
-def train() -> (SVC, TfidfVectorizer, List):
+def train() -> (SVC, TfidfVectorizer, Any):
     # Load dataset
     newsgroups = fetch_20newsgroups(subset='all',
                                     categories=['soc.religion.christian',
@@ -45,7 +45,7 @@ def train() -> (SVC, TfidfVectorizer, List):
 def predict_category(text: str,
                      clf: SVC,
                      vectorizer: TfidfVectorizer,
-                     newsgroups: List):
+                     newsgroups: Any):
     """
     Predict the category of a given text using the trained classifier.
     """
