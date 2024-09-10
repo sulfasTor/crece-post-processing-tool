@@ -1,7 +1,7 @@
 requests==2.32.3
 pandas==2.2.2
 pyarrow==17.0.0
-chardet==4.0.0
+chardet==5.2.0
 scikit-learn
 scipy
 matplotlib
