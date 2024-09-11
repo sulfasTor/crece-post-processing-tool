@@ -2,13 +2,13 @@
 
 * Requirements
 ** Situation
-   CRECE team needs to retrieve emails from mailchimp list to identify new persons, location and prayer requests so they can follow up during the week.
-   Actual situation is they rotate team every week, one persons does the following tasks:
+   CRECE team needs to retrieve emails from mailchimp list to identify new persons, locations and prayer requests so they can follow up during the week.
+   Current situation is they rotate team every week, one or two persons do following tasks:
    - If new person, must download Excel macro from drive, Google drive and Mailchimp credentials.
    - Log in into mailchimp CRECE account and manually download list.
    - Run macro and process data and upload new entries to shared spreadsheet in google drive.
    - Identify new persons and make a list of prayer requests.
-   - Call those persons during the week and follow up prayer requests.
+   - Call those persons during the week and follow up with prayer requests.
 
      Problems are this has many security and privacy issue as sensitive data is shared with multiple people, including new members.
      Also some persons are not excel expert and have problem running excel macro.
@@ -19,14 +19,14 @@
     First a Tkinter Python cross platform UI was created which replaced Excel macro, process still the same.
 *** Iteration 2
     Second a architecture plan was proposed which includes a lambda triggered weekly which downloads more recent data from mailchimp, process it, creates a report and sends it to CRECE team email address.
+    Python CLI was extended from GUI code so it can download data from Mailchimp API, generate chart bar reports and sent report via Gmail. Solution is deployed on a Github Runner and triggered weekly.
 *** Iteration 3
-    A sentiment analysis is implemented to classify prayer requests into know categories, so prayer can be divided into multiple CRECE team who are akin.
+    A sentiment analysis is implemented to classify prayer requests into know categories, so prayer can be assigned to CRECE team members according to their expertise.
 ** Results
 *** Iteration 1
-    It was identified that some persons use a old version of Macos which can't run GUI. Also some persons are not computer proficient users and have trouble running app.
+    It was identified that some persons use a old version of Macos which can't run GUI. Also team members are not computer proficient and struggle to download and run the app.
 *** Iteration 2
-    A python CLI was extended from GUI code which can download data from Mailchimp API and generate some chart bar reports and sent via Gmail. Solution is deployed on a Github Runner and trigger weekly.
-
+    Half process is automated and team has more time to focus on calling people. Also POC assured this solution generates no costs.
 
 * Architecture
 ** C4 Container Diagram
@@ -89,7 +89,7 @@ Deployment_Node(trigger, "EventBridge", "Schedule", "Cloudwatch events", $sprite
 Container(schedule, "Schedule", "every sunday", "Triggered every sunday at 10pm CST", "clock")
 }
 Deployment_Node(serverless, "AWS Lambda", "Python runtime", $sprite="Lambda,color=#ff9900"){
-Container(tool, "CRECE Tool", "Python CLI", "Generates CSV and report", "python")
+Container(tool, "CRECE Tool", "Python CLI", "Generates CSV, report and send email", "python")
 }
 }
 
@@ -104,4 +104,32 @@ SHOW_LEGEND()
 
 
 
-* Backlog
+* TODO Backlog
+
+* TODO Write GUI [/]
+
+*** DONE Write Github Actions workflow to build app in Windows and macOs
+
+** TODO Write CLI [0/4]
+
+*** DONE Write mailchimp connector
+
+*** DONE Write reporting module using jinja2
+
+*** TODO Write sentiment analysis module POC with scikit
+
+*** TODO Write email system module
+
+**** TODO Create dataset and train SVC
+
+** DONE MVP deployed in Github Action Runners [2/2]
+
+*** DONE Write Github Actions workflow to send email with github action
+
+*** DONE Write Github Actions workflow to trigger workflow weekly
+
+** TODO Lambda Function deployed in AWS [0/3]
+
+*** TODO Write terraform module of AWS Lambda and trigger
+
+*** TODO Write Github Actions workflow to deploy lambda
