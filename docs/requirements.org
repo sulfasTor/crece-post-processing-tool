@@ -1,0 +1,136 @@
+#+TITLE: Requirements/Backlog
+#+OPTIONS: num:2 toc:nil
+
+* Requirements
+** Situation
+   CRECE team needs to retrieve contact data from mailchimp list to identify new persons, locations and prayer requests so they can follow up during the week.
+   Current situation is they rotate team every week, one or two persons do following tasks:
+   - If new person, must download Excel macro from drive, Google drive and Mailchimp credentials.
+   - Log in into mailchimp CRECE account and manually download list.
+   - Run macro and process data and upload new entries to shared spreadsheet in google drive.
+   - Identify new persons and make a list of prayer requests.
+   - Call those persons during the week and follow up with prayer requests.
+
+     Problems are this has many security and privacy issue as sensitive data is shared with multiple people, including new members.
+     Also some persons are not excel expert and have problem running excel macro.
+** Task
+   Help them replace broken excel macro and make it user friendly, if possible automate full task and solve security and privacy issues without incurring into high costs.
+** Action
+*** Iteration 1
+    First a Tkinter Python cross platform UI was created which replaced Excel macro, process still the same.
+*** Iteration 2
+    Second a architecture plan was proposed which includes a lambda triggered weekly which downloads more recent data from mailchimp, process it, creates a report and sends it to CRECE team email address.
+    Python CLI was extended from GUI code so it can download data from Mailchimp API, generate chart bar reports and sent report via Gmail. Solution is deployed on a Github Runner and triggered weekly.
+*** Iteration 3
+    A sentiment analysis is implemented to classify prayer requests into know categories, so prayer can be assigned to CRECE team members according to their expertise.
+** Results
+*** Iteration 1
+    It was identified that some persons use a old version of Macos which can't run GUI. Also team members are not computer proficient and struggle to download and run the app.
+*** Iteration 2
+    Half process is automated and team has more time to focus on calling people. Also POC assured this solution generates no costs.
+
+* Architecture
+** C4 Container Diagram
+#+begin_src plantuml :file architecture.png
+!define DEVICONS2 https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons2
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include  https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+!include FONTAWESOME/envelope.puml
+!include FONTAWESOME/laptop.puml
+!include FONTAWESOME/chart_bar.puml
+!include FONTAWESOME/brain.puml
+!include FONTAWESOME/mailchimp.puml
+
+title CRECE Container Diagram
+
+Person(personAlias, "CRECE Team member", "")
+
+System_Ext(gmail, "Email System", "Gmail", "envelope")
+System_Ext(ext_mailchimp, "Marketing System", "Mailchimp", "mailchimp")
+
+System_Boundary(c1, "CRECE Tool"){
+Container(mailchimp, "Mailchimp connector", "Python module", "", "mailchimp")
+Container(ui, "UI", "Python Tkinter desktop cross-platform UI", "", "laptop")
+Container(reporting, "Report generator", "Python module jinja2", "", "chart_bar")
+Container(ai, "Sentiment Analysis module", "Python module OpenAI", "", "brain")
+Container(email, "Email System module", "Python module gmail", "", "envelope")
+}
+
+Rel(personAlias, ui, "Provides local CSV")
+Rel(email, gmail, "Sents email with report and data")
+Rel(personAlias, gmail, "Read and downloads report and data")
+Rel(mailchimp, ext_mailchimp, "Pulls data from Mailchimp API")
+
+SHOW_PERSON_OUTLINE()
+SHOW_LEGEND()
+#+end_src
+
+#+RESULTS:
+[[file:architecture.png]]
+
+** C4 Deployment Diagram
+#+begin_src plantuml :file deployment.png
+title Deployment diagram for CRECE Tool
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v18.0/dist
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Deployment.puml
+!include AWSPuml/AWSCommon.puml
+!include AWSPuml/Compute/Lambda.puml
+!include AWSPuml/ApplicationIntegration/EventBridge.puml
+!include FONTAWESOME/aws.puml
+!include FONTAWESOME/python.puml
+!include FONTAWESOME/clock.puml
+
+LAYOUT_LEFT_RIGHT()
+
+Deployment_Node(aws, "", "us-west-2", $sprite="aws"){
+Deployment_Node(trigger, "EventBridge", "Schedule", "Cloudwatch events", $sprite="EventBridge,color=#d42869"){
+Container(schedule, "Schedule", "every sunday", "Triggered every sunday at 10pm CST", "clock")
+}
+Deployment_Node(serverless, "AWS Lambda", "Python runtime", $sprite="Lambda,color=#ff9900"){
+Container(tool, "CRECE Tool", "Python CLI", "Generates CSV, report and send email", "python")
+}
+}
+
+Rel(trigger, serverless, "Triggers")
+
+SHOW_LEGEND()
+#+end_src
+
+#+RESULTS:
+[[file:deployment.png]]
+
+
+
+
+* Backlog
+
+** Write GUI
+
+- Write Github Actions workflow to build app in Windows and macOs
+
+** Write CLI
+
+- [X] Write mailchimp connector
+
+- [X] Write reporting module using jinja2
+
+- [ ] Write sentiment analysis module POC with scikit
+
+- [ ] Write email system module
+
+- [ ] Create dataset and train SVC
+
+** MVP deployed in Github Action Runners
+
+- [X] Write Github Actions workflow to send email with github action
+
+- [X] Write Github Actions workflow to trigger workflow weekly
+
+** Lambda Function deployed in AWS
+
+- [ ] Write terraform module of AWS Lambda and trigger
+
+- [ ] Write Github Actions workflow to deploy lambda

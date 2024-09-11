@@ -175,4 +175,6 @@ pyrightconfig.json
 *~
 *.http
 
+super-linter-output/super-linter-summary.md
+
 # End of https://www.toptal.com/developers/gitignore/api/python
