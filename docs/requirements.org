@@ -104,32 +104,32 @@ SHOW_LEGEND()
 
 
 
-* TODO Backlog
+* [ ] Backlog
 
-* TODO Write GUI [/]
+** [X] Write GUI [1/1]
 
-*** DONE Write Github Actions workflow to build app in Windows and macOs
+*** [X] Write Github Actions workflow to build app in Windows and macOs
 
-** TODO Write CLI [0/4]
+** [ ] Write CLI [2/4]
 
-*** DONE Write mailchimp connector
+*** [X] Write mailchimp connector
 
-*** DONE Write reporting module using jinja2
+*** [X] Write reporting module using jinja2
 
-*** TODO Write sentiment analysis module POC with scikit
+*** [ ] Write sentiment analysis module POC with scikit
 
-*** TODO Write email system module
+*** [ ] Write email system module
 
-**** TODO Create dataset and train SVC
+**** [ ] Create dataset and train SVC
 
-** DONE MVP deployed in Github Action Runners [2/2]
+** [X] MVP deployed in Github Action Runners [2/2]
 
-*** DONE Write Github Actions workflow to send email with github action
+*** [X] Write Github Actions workflow to send email with github action
 
-*** DONE Write Github Actions workflow to trigger workflow weekly
+*** [X] Write Github Actions workflow to trigger workflow weekly
 
-** TODO Lambda Function deployed in AWS [0/3]
+** [ ] Lambda Function deployed in AWS [0/3]
 
-*** TODO Write terraform module of AWS Lambda and trigger
+*** [ ] Write terraform module of AWS Lambda and trigger
 
-*** TODO Write Github Actions workflow to deploy lambda
+*** [ ] Write Github Actions workflow to deploy lambda

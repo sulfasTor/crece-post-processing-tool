@@ -27,32 +27,31 @@
 <li><a href="#orgheadline12">2.2. C4 Deployment Diagram</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline14">3. <span class="todo TODO">TODO</span> Backlog</a></li>
-<li><a href="#orgheadline28">4. <span class="todo TODO">TODO</span> Write GUI <code>[/]</code></a>
+<li><a href="#orgheadline28">3. [ ] Backlog</a>
 <ul>
-<li>
+<li><a href="#orgheadline15">3.1. [X] Write GUI <code>[1/1]</code></a>
 <ul>
-<li><a href="#orgheadline15">4.0.1. <span class="done DONE">DONE</span> Write Github Actions workflow to build app in Windows and macOs</a></li>
+<li><a href="#orgheadline14">3.1.1. [X] Write Github Actions workflow to build app in Windows and macOs</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline21">4.1. <span class="todo TODO">TODO</span> Write CLI <code>[0/4]</code></a>
+<li><a href="#orgheadline21">3.2. [ ] Write CLI <code>[2/4]</code></a>
 <ul>
-<li><a href="#orgheadline16">4.1.1. <span class="done DONE">DONE</span> Write mailchimp connector</a></li>
-<li><a href="#orgheadline17">4.1.2. <span class="done DONE">DONE</span> Write reporting module using jinja2</a></li>
-<li><a href="#orgheadline18">4.1.3. <span class="todo TODO">TODO</span> Write sentiment analysis module POC with scikit</a></li>
-<li><a href="#orgheadline20">4.1.4. <span class="todo TODO">TODO</span> Write email system module</a></li>
+<li><a href="#orgheadline16">3.2.1. [X] Write mailchimp connector</a></li>
+<li><a href="#orgheadline17">3.2.2. [X] Write reporting module using jinja2</a></li>
+<li><a href="#orgheadline18">3.2.3. [ ] Write sentiment analysis module POC with scikit</a></li>
+<li><a href="#orgheadline20">3.2.4. [ ] Write email system module</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline24">4.2. <span class="done DONE">DONE</span> MVP deployed in Github Action Runners <code>[2/2]</code></a>
+<li><a href="#orgheadline24">3.3. [X] MVP deployed in Github Action Runners <code>[2/2]</code></a>
 <ul>
-<li><a href="#orgheadline22">4.2.1. <span class="done DONE">DONE</span> Write Github Actions workflow to send email with github action</a></li>
-<li><a href="#orgheadline23">4.2.2. <span class="done DONE">DONE</span> Write Github Actions workflow to trigger workflow weekly</a></li>
+<li><a href="#orgheadline22">3.3.1. [X] Write Github Actions workflow to send email with github action</a></li>
+<li><a href="#orgheadline23">3.3.2. [X] Write Github Actions workflow to trigger workflow weekly</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline27">4.3. <span class="todo TODO">TODO</span> Lambda Function deployed in AWS <code>[0/3]</code></a>
+<li><a href="#orgheadline27">3.4. [ ] Lambda Function deployed in AWS <code>[0/3]</code></a>
 <ul>
-<li><a href="#orgheadline25">4.3.1. <span class="todo TODO">TODO</span> Write terraform module of AWS Lambda and trigger</a></li>
-<li><a href="#orgheadline26">4.3.2. <span class="todo TODO">TODO</span> Write Github Actions workflow to deploy lambda</a></li>
+<li><a href="#orgheadline25">3.4.1. [ ] Write terraform module of AWS Lambda and trigger</a></li>
+<li><a href="#orgheadline26">3.4.2. [ ] Write Github Actions workflow to deploy lambda</a></li>
 </ul>
 </li>
 </ul>
@@ -117,32 +116,32 @@ Half process is automated and team has more time to focus on calling people. Als
 
 ![img](deployment.png)
 
-# TODO Backlog<a id="orgheadline14"></a>
+# [ ] Backlog<a id="orgheadline28"></a>
 
-# TODO Write GUI <code>[/]</code><a id="orgheadline28"></a>
+## [X] Write GUI <code>[1/1]</code><a id="orgheadline15"></a>
 
-### DONE Write Github Actions workflow to build app in Windows and macOs<a id="orgheadline15"></a>
+### [X] Write Github Actions workflow to build app in Windows and macOs<a id="orgheadline14"></a>
 
-## TODO Write CLI <code>[0/4]</code><a id="orgheadline21"></a>
+## [ ] Write CLI <code>[2/4]</code><a id="orgheadline21"></a>
 
-### DONE Write mailchimp connector<a id="orgheadline16"></a>
+### [X] Write mailchimp connector<a id="orgheadline16"></a>
 
-### DONE Write reporting module using jinja2<a id="orgheadline17"></a>
+### [X] Write reporting module using jinja2<a id="orgheadline17"></a>
 
-### TODO Write sentiment analysis module POC with scikit<a id="orgheadline18"></a>
+### [ ] Write sentiment analysis module POC with scikit<a id="orgheadline18"></a>
 
-### TODO Write email system module<a id="orgheadline20"></a>
+### [ ] Write email system module<a id="orgheadline20"></a>
 
-1.  TODO Create dataset and train SVC
+1.  [ ] Create dataset and train SVC
 
-## DONE MVP deployed in Github Action Runners <code>[2/2]</code><a id="orgheadline24"></a>
+## [X] MVP deployed in Github Action Runners <code>[2/2]</code><a id="orgheadline24"></a>
 
-### DONE Write Github Actions workflow to send email with github action<a id="orgheadline22"></a>
+### [X] Write Github Actions workflow to send email with github action<a id="orgheadline22"></a>
 
-### DONE Write Github Actions workflow to trigger workflow weekly<a id="orgheadline23"></a>
+### [X] Write Github Actions workflow to trigger workflow weekly<a id="orgheadline23"></a>
 
-## TODO Lambda Function deployed in AWS <code>[0/3]</code><a id="orgheadline27"></a>
+## [ ] Lambda Function deployed in AWS <code>[0/3]</code><a id="orgheadline27"></a>
 
-### TODO Write terraform module of AWS Lambda and trigger<a id="orgheadline25"></a>
+### [ ] Write terraform module of AWS Lambda and trigger<a id="orgheadline25"></a>
 
-### TODO Write Github Actions workflow to deploy lambda<a id="orgheadline26"></a>
+### [ ] Write Github Actions workflow to deploy lambda<a id="orgheadline26"></a>
