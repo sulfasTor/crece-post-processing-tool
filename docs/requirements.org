@@ -1,4 +1,5 @@
 #+TITLE: Requirements/Backlog
+#+OPTIONS: num:2 toc:nil
 
 * Requirements
 ** Situation
@@ -104,32 +105,32 @@ SHOW_LEGEND()
 
 
 
-* [ ] Backlog
+* Backlog
 
-** [X] Write GUI [1/1]
+** Write GUI
 
-*** [X] Write Github Actions workflow to build app in Windows and macOs
+- Write Github Actions workflow to build app in Windows and macOs
 
-** [ ] Write CLI [2/4]
+** Write CLI
 
-*** [X] Write mailchimp connector
+- [X] Write mailchimp connector
 
-*** [X] Write reporting module using jinja2
+- [X] Write reporting module using jinja2
 
-*** [ ] Write sentiment analysis module POC with scikit
+- [ ] Write sentiment analysis module POC with scikit
 
-*** [ ] Write email system module
+- [ ] Write email system module
 
-**** [ ] Create dataset and train SVC
+- [ ] Create dataset and train SVC
 
-** [X] MVP deployed in Github Action Runners [2/2]
+** MVP deployed in Github Action Runners
 
-*** [X] Write Github Actions workflow to send email with github action
+- [X] Write Github Actions workflow to send email with github action
 
-*** [X] Write Github Actions workflow to trigger workflow weekly
+- [X] Write Github Actions workflow to trigger workflow weekly
 
-** [ ] Lambda Function deployed in AWS [0/3]
+** Lambda Function deployed in AWS
 
-*** [ ] Write terraform module of AWS Lambda and trigger
+- [ ] Write terraform module of AWS Lambda and trigger
 
-*** [ ] Write Github Actions workflow to deploy lambda
+- [ ] Write Github Actions workflow to deploy lambda
