@@ -2,7 +2,7 @@
 
 ## Situation
 
-CRECE team needs to retrieve emails from mailchimp list to identify new persons, locations and prayer requests so they can follow up during the week.
+CRECE team needs to retrieve contact data from mailchimp list to identify new persons, locations and prayer requests so they can follow up during the week.
 Current situation is they rotate team every week, one or two persons do following tasks:
 
 -   If new person, must download Excel macro from drive, Google drive and Mailchimp credentials.
