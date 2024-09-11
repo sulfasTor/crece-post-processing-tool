@@ -109,7 +109,8 @@ SHOW_LEGEND()
 
 ** Write GUI
 
-- Write Github Actions workflow to build app in Windows and macOs
+- [X] Write Tkinter app
+- [X] Write Github Actions workflow to build app in Windows and macOs
 
 ** Write CLI
 
