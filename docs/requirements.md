@@ -27,7 +27,7 @@ First a Tkinter Python cross platform UI was created which replaced Excel macro,
 ### Iteration 2
 
 Second a architecture plan was proposed which includes a lambda triggered weekly which downloads more recent data from mailchimp, process it, creates a report and sends it to CRECE team email address.
-Python CLI was extended from GUI code so it can download data from Mailchimp API, generate chart bar reports and sent report via Gmail. Solution is deployed on a Github Runner and triggered weekly.
+Python CLI was extended from GUI code so it can download data from Mailchimp API, generate chart bar reports and sent report via Gmail. Solution is deployed on a GitHub Runner and triggered weekly.
 
 ### Iteration 3
 
@@ -37,7 +37,7 @@ A sentiment analysis is implemented to classify prayer requests into know catego
 
 ### Iteration 1
 
-It was identified that some persons use a old version of Macos which can't run GUI. Also team members are not computer proficient and struggle to download and run the app.
+It was identified that some persons use a old version of macOs which can't run GUI. Also team members are not computer proficient and struggle to download and run the app.
 
 ### Iteration 2
 
@@ -57,7 +57,8 @@ Half process is automated and team has more time to focus on calling people. Als
 
 ## Write GUI
 
--   Write Github Actions workflow to build app in Windows and macOs
+-   [X] Write Tkinter app
+-   [X] Write GitHub Actions workflow to build app in Windows and macOs
 
 ## Write CLI
 
@@ -71,14 +72,14 @@ Half process is automated and team has more time to focus on calling people. Als
 
 -   [ ] Create dataset and train SVC
 
-## MVP deployed in Github Action Runners
+## MVP deployed in GitHub Action Runners
 
--   [X] Write Github Actions workflow to send email with github action
+-   [X] Write GitHub Actions workflow to send email with github action
 
--   [X] Write Github Actions workflow to trigger workflow weekly
+-   [X] Write GitHub Actions workflow to trigger workflow weekly
 
 ## Lambda Function deployed in AWS
 
 -   [ ] Write terraform module of AWS Lambda and trigger
 
--   [ ] Write Github Actions workflow to deploy lambda
+-   [ ] Write GitHub Actions workflow to deploy lambda

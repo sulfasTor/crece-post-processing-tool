@@ -20,18 +20,18 @@
     First a Tkinter Python cross platform UI was created which replaced Excel macro, process still the same.
 *** Iteration 2
     Second a architecture plan was proposed which includes a lambda triggered weekly which downloads more recent data from mailchimp, process it, creates a report and sends it to CRECE team email address.
-    Python CLI was extended from GUI code so it can download data from Mailchimp API, generate chart bar reports and sent report via Gmail. Solution is deployed on a Github Runner and triggered weekly.
+    Python CLI was extended from GUI code so it can download data from Mailchimp API, generate chart bar reports and sent report via Gmail. Solution is deployed on a GitHub Runner and triggered weekly.
 *** Iteration 3
     A sentiment analysis is implemented to classify prayer requests into know categories, so prayer can be assigned to CRECE team members according to their expertise.
 ** Results
 *** Iteration 1
-    It was identified that some persons use a old version of Macos which can't run GUI. Also team members are not computer proficient and struggle to download and run the app.
+    It was identified that some persons use a old version of macOs which can't run GUI. Also team members are not computer proficient and struggle to download and run the app.
 *** Iteration 2
     Half process is automated and team has more time to focus on calling people. Also POC assured this solution generates no costs.
 
 * Architecture
 ** C4 Container Diagram
-#+begin_src plantuml :file architecture.png
+   #+begin_src plantuml :file architecture.png
 !define DEVICONS2 https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons2
 !define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
 !include  https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
@@ -64,13 +64,13 @@ Rel(mailchimp, ext_mailchimp, "Pulls data from Mailchimp API")
 
 SHOW_PERSON_OUTLINE()
 SHOW_LEGEND()
-#+end_src
+   #+end_src
 
-#+RESULTS:
-[[file:architecture.png]]
+   #+RESULTS:
+   [[file:architecture.png]]
 
 ** C4 Deployment Diagram
-#+begin_src plantuml :file deployment.png
+   #+begin_src plantuml :file deployment.png
 title Deployment diagram for CRECE Tool
 !define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v18.0/dist
 !define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
@@ -97,10 +97,10 @@ Container(tool, "CRECE Tool", "Python CLI", "Generates CSV, report and send emai
 Rel(trigger, serverless, "Triggers")
 
 SHOW_LEGEND()
-#+end_src
+   #+end_src
 
-#+RESULTS:
-[[file:deployment.png]]
+   #+RESULTS:
+   [[file:deployment.png]]
 
 
 
@@ -109,29 +109,29 @@ SHOW_LEGEND()
 
 ** Write GUI
 
-- [X] Write Tkinter app
-- [X] Write Github Actions workflow to build app in Windows and macOs
+   - [X] Write Tkinter app
+   - [X] Write GitHub Actions workflow to build app in Windows and macOs
 
 ** Write CLI
 
-- [X] Write mailchimp connector
+   - [X] Write mailchimp connector
 
-- [X] Write reporting module using jinja2
+   - [X] Write reporting module using jinja2
 
-- [ ] Write sentiment analysis module POC with scikit
+   - [ ] Write sentiment analysis module POC with scikit
 
-- [ ] Write email system module
+   - [ ] Write email system module
 
-- [ ] Create dataset and train SVC
+   - [ ] Create dataset and train SVC
 
-** MVP deployed in Github Action Runners
+** MVP deployed in GitHub Action Runners
 
-- [X] Write Github Actions workflow to send email with github action
+   - [X] Write GitHub Actions workflow to send email with github action
 
-- [X] Write Github Actions workflow to trigger workflow weekly
+   - [X] Write GitHub Actions workflow to trigger workflow weekly
 
 ** Lambda Function deployed in AWS
 
-- [ ] Write terraform module of AWS Lambda and trigger
+   - [ ] Write terraform module of AWS Lambda and trigger
 
-- [ ] Write Github Actions workflow to deploy lambda
+   - [ ] Write GitHub Actions workflow to deploy lambda
