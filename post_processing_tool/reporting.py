@@ -20,7 +20,8 @@ def render_template(context: Dict, template_path: str, template_dir: str = "./")
 
 def generate_location_dist(df: DataFrame) -> str:
     plt.cla()
-    df = df["CITY"].dropna().str.upper().value_counts().nlargest(10)
+    df["CITY"] = df["CITY"].dropna().str.upper().str.normalize("NFKD").str.encode('ascii',errors='ignore').str.decode('utf-8')
+    df = df["CITY"].value_counts().nlargest(10)
     plt.bar(range(len(df)), df.values, align="center", color="black")
     plt.xticks(range(len(df)), df.index.values, size="small", rotation=45)
     plt.xlabel("Cities")
