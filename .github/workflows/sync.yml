@@ -6,7 +6,7 @@ on:
       syncIntervalWeeks:
         description: Sync contacts from last n weeks
         required: false
-        default: 2
+        default: 1
         type: string
 
   schedule:
