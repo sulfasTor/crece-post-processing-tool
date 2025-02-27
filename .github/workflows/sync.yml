@@ -34,7 +34,7 @@ jobs:
         MAILCHIMP_LIST_ID: ${{ secrets.CRECE_MAILCHIMP_LIST_ID }}
         MAILCHIMP_API_KEY: ${{ secrets.CRECE_MAILCHIMP_TOKEN }}
         MAILCHIMP_USERNAME: ${{ secrets.CRECE_MAILCHIMP_USER }}
-        CRECE_SYNC_INTERVAL_WEEKS: ${{ inputs.syncIntervalWeeks || 2 }}
+        CRECE_SYNC_INTERVAL_WEEKS: ${{ inputs.syncIntervalWeeks || 1 }}
       run: |
         mkdir results
         python main.py -c -d -o ./results -r ./templates/report_template.html.j2
